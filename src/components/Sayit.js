@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 // MUI stuff
 import Card from '@material-ui/core/Card';
@@ -25,6 +27,7 @@ const styles ={
 
 export class Sayit extends Component {
     render() {
+        dayjs.extend(relativeTime)
         const { classes, 
             sayit : {
                 body, 
@@ -41,7 +44,7 @@ export class Sayit extends Component {
                 image={userImage}
                 title="Profile image"
                 className={classes.image}/>
-                <CardContent class={classes.content}>
+                <CardContent className={classes.content}>
                     <Typography 
                     variant="h5" 
                     component={Link} 
@@ -52,7 +55,7 @@ export class Sayit extends Component {
                     </Typography>
                     <Typography 
                     variant="body2" 
-                    color="textSecondary">{createdAt}</Typography>
+                    color="textSecondary">{dayjs(createdAt).fromNow()}</Typography>
                     <Typography 
                     variant="body1">{body}</Typography>
                 </CardContent>
