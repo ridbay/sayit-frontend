@@ -3,41 +3,78 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types'
 import AppIcon from '../images/icon.png'
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 // MUI stuff
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles ={
-    form:{
+    form: {
         textAlign: 'center'
-    },
-    image:{
+      },
+      image: {
         margin: '20px auto 20px auto'
-    },
-    pageTitle:{
+      },
+      pageTitle: {
         margin: '5px auto 5px auto'
-    },
-    textField:{
-        margin: '100px auto 10px auto'
-    }
+      },
+      textField: {
+        margin: '10px auto 10px auto'
+      },
+      button: {
+        marginTop: 20,
+        position: 'relative'
+      },
+      customError: {
+        color: 'red',
+        fontSize: '0.8rem',
+        marginTop: 10
+      },
+      progress: {
+        position: 'absolute'
+      }
 };
 
 
-
 class login extends Component {
-    constructor(){
+    constructor() {
         super();
-        this.state={
+        this.state = {
             email: '',
             password: '',
             loading: false,
             errors: {}
         }
     }
-    handleSubmit = (event) =>{
-        console.log('hi')
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            loading: true
+        });
+        const userData = {
+            email: this.state.email,
+            password: this.state.password
+        }
+        axios.post('/login', userData)
+            .then(res => {
+                console.log(res.data)
+                localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
+                this.setState({
+                    loading: false
+                });
+                this.props.history.push('/');
+            })
+            .catch(err => {
+                this.setState({
+                    errors: err.response.data,
+                    loading: false
+                })
+            })
+
     }
 
     handleChange = (event) => {
@@ -45,16 +82,17 @@ class login extends Component {
             [event.target.name]: event.target.value
         })
     }
-    
-    
+
+
 
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
+        const { errors, loading } = this.state;
         return (
             <Grid container className={classes.form}>
                 <Grid item sm></Grid>
                 <Grid item sm>
-                    <img src={AppIcon} alt='App icon' width='50' height='50' className={classes.image}/> 
+                    <img src={AppIcon} alt='App icon' width='50' height='50' className={classes.image} />
                     <Typography variant='h2' className={classes.pageTitle}>Login</Typography>
                     <form noValidate onSubmit={this.handleSubmit}>
                         <TextField
@@ -62,6 +100,8 @@ class login extends Component {
                             label="Email"
                             type='email'
                             name='email'
+                            helperText={errors.email}
+                            error={errors.email ? true : false}
                             className={classes.textField}
                             value={this.state.email}
                             onChange={this.handleChange}
@@ -72,21 +112,41 @@ class login extends Component {
                             label="Password"
                             type='password'
                             name='password'
+                            helperText={errors.password}
+                            error={errors.password ? true : false}
                             className={classes.textField}
                             value={this.state.password}
                             onChange={this.handleChange}
                             fullWidth
                         />
-                        <Button type='submit' variant='contained' color='primary'  className={classes.button}>Login</Button>
+                        {errors.general && (
+                            <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
+                        )}
+                        
+                        <Button 
+                        type='submit' 
+                        variant='contained' 
+                        color='primary' 
+                        className={classes.button}
+                        disabled={loading}
+                        >
+                            Login {loading && (
+                            <CircularProgress size={30} className={classes.progress}/>
+                        )}
+                        </Button>
+                        <br/>
+                        <small>
+                            Don't have an account? Sign up <Link to="/signup"> here</Link>
+                        </small>
                     </form>
-                    </Grid>
+                </Grid>
                 <Grid item sm> </Grid>
             </Grid>
         )
     }
 }
 
-login.propTypes ={
+login.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
