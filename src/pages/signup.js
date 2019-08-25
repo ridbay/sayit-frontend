@@ -4,39 +4,41 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types'
 import AppIcon from '../images/icon.png'
 import Button from '@material-ui/core/Button';
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 // MUI stuff
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress';
+// REDUX STUFF
+import { connect } from 'react-redux'
+import { signupUser } from '../redux/actions/userActions'
 
-const styles ={
+const styles = {
     form: {
         textAlign: 'center'
-      },
-      image: {
+    },
+    image: {
         margin: '20px auto 20px auto'
-      },
-      pageTitle: {
+    },
+    pageTitle: {
         margin: '5px auto 5px auto'
-      },
-      textField: {
+    },
+    textField: {
         margin: '10px auto 10px auto'
-      },
-      button: {
+    },
+    button: {
         marginTop: 20,
         position: 'relative'
-      },
-      customError: {
+    },
+    customError: {
         color: 'red',
         fontSize: '0.8rem',
         marginTop: 10
-      },
-      progress: {
+    },
+    progress: {
         position: 'absolute'
-      }
+    }
 };
 
 
@@ -49,8 +51,12 @@ class signup extends Component {
             password: '',
             confirmPassword: '',
             handle: '',
-            loading: false,
             errors: {}
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.UI.errors) {
+            this.setState({ errors: nextProps.UI.errors });
         }
     }
     handleSubmit = (event) => {
@@ -64,22 +70,7 @@ class signup extends Component {
             confirmPassword: this.state.confirmPassword,
             handle: this.state.handle,
         }
-        axios.post('/signup', newUserData)
-            .then(res => {
-                console.log(res.data)
-                localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-                this.setState({
-                    loading: false
-                });
-                this.props.history.push('/');
-            })
-            .catch(err => {
-                this.setState({
-                    errors: err.response.data,
-                    loading: false
-                })
-            })
-
+        this.props.signupUser(newUserData, this.props.history);
     }
 
     handleChange = (event) => {
@@ -91,8 +82,8 @@ class signup extends Component {
 
 
     render() {
-        const { classes } = this.props;
-        const { errors, loading } = this.state;
+        const { classes, UI: { loading } } = this.props;
+        const { errors } = this.state;
         return (
             <Grid container className={classes.form}>
                 <Grid item sm></Grid>
@@ -151,19 +142,19 @@ class signup extends Component {
                         {errors.general && (
                             <Typography variant="body2" className={classes.customError}>{errors.general}</Typography>
                         )}
-                        
-                        <Button 
-                        type='submit' 
-                        variant='contained' 
-                        color='primary' 
-                        className={classes.button}
-                        disabled={loading}
+
+                        <Button
+                            type='submit'
+                            variant='contained'
+                            color='primary'
+                            className={classes.button}
+                            disabled={loading}
                         >
                             signup {loading && (
-                            <CircularProgress size={30} className={classes.progress}/>
-                        )}
+                                <CircularProgress size={30} className={classes.progress} />
+                            )}
                         </Button>
-                        <br/>
+                        <br />
                         <small>
                             Already have an account? Log in <Link to="/login"> here</Link>
                         </small>
@@ -176,8 +167,14 @@ class signup extends Component {
 }
 
 signup.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired,
+    logoutUser: PropTypes.func.isRequired,
 }
 
-
-export default withStyles(styles)(signup)
+const mapStateToProps = (state) => ({
+    user: state.user,
+    UI: state.UI
+})
+export default connect(mapStateToProps, { signupUser })(withStyles(styles)(signup))
