@@ -13,7 +13,7 @@ export const loginUser = (userData, history) => (dispatch) => {
         .catch(err => {
             dispatch({
                 type: SET_ERRORS,
-                payload: err.response.data,
+                payload: err.response.data
             })
         })
 }
@@ -34,7 +34,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
         })
 }
 
-export const logoutUser = (dispatch) => {
+export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     delete axios.defaults.headers.common['Authorization']
     dispatch({ type: SET_UNAUTHENTICATED })
@@ -52,6 +52,15 @@ export const getUserData = () => (dispatch) => {
                 .catch(err => console.log(err))
         })
 
+}
+
+export const uploadImage = (formData) =>(dispatch)=> {
+    dispatch({type: LOADING_USER})
+    axios.post('/user/image', formData)
+    .then(() => {
+        dispatch(getUserData());
+    })
+    .catch(err => console.log(err));
 }
 
 const setAuthorizationHeader = (token) => {
