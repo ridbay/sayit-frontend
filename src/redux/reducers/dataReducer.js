@@ -4,7 +4,8 @@ import {
     LIKE_SAYIT,
     UNLIKE_SAYIT,
     SET_ERRORS,
-    DELETE_SAYIT
+    DELETE_SAYIT,
+    POST_SAYIT
 
 } from '../types';
 const initialState = {
@@ -38,6 +39,14 @@ export default function (state = initialState, action) {
             return {
                 ...state
             }
+            case POST_SAYIT:
+                return {
+                    ...state,
+                    sayits: [
+                        action.payload,
+                        ...state.sayits
+                    ]
+                }
         default:
             return state;
 

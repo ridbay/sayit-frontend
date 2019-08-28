@@ -15,4 +15,5 @@ export const SET_SAYITS = 'SET_SAYITS';
 export const SET_SAYIT = 'SET_SAYIT'; 
 export const LIKE_SAYIT = 'LIKE_SAYIT';
 export const UNLIKE_SAYIT = 'UNLIKE_SAYIT';
-export const DELETE_SAYIT = 'DELETE_SAYIT'
+export const DELETE_SAYIT = 'DELETE_SAYIT';
+export const POST_SAYIT = 'POST_SAYIT';
