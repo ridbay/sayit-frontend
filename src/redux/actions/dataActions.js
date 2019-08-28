@@ -1,4 +1,10 @@
-import { SET_SAYITS, LOADING_DATA, LIKE_SAYIT, UNLIKE_SAYIT, SET_ERRORS } from '../types';
+import { 
+    SET_SAYITS, 
+    LOADING_DATA, 
+    LIKE_SAYIT, 
+    UNLIKE_SAYIT, 
+    SET_ERRORS, 
+    DELETE_SAYIT } from '../types';
 import axios from 'axios';
 // get all sayits 
 export const getSayits = () => dispatch => {
@@ -39,4 +45,12 @@ export const unlikeSayit = (sayitId) => dispatch  => {
         })
     })
     .catch(err => console.log(err))
+};
+
+export const deleteSayit = (sayitId) => (dispatch) => {
+    axios.delete(`/sayits/${sayitId}`)
+    .then(()=> {
+        dispatch({type: DELETE_SAYIT, payload: sayitId})
+    })
+    .catch(err => console.log(err));
 }

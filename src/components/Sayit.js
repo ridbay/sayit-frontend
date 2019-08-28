@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
-
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import PropTypes from 'prop-types'
 import MyButton from '../util/MyButton';
+import DeleteSayit from './DeleteSayit'
 
 // MUI stuff
 import Card from '@material-ui/core/Card';
@@ -24,6 +24,7 @@ import {likeSayit, unlikeSayit} from '../redux/actions/dataActions'
 
 const styles ={
     card: {
+        position:'relative',
         display: 'flex',
         marginBottom: 20,
     },
@@ -65,7 +66,8 @@ export class Sayit extends Component {
                 likeCount, 
                 commentCount},
                 user: {
-                   authenticated 
+                   authenticated,
+                   credentials: { handle}
                 } 
             } = this.props;
             const likeButton = !authenticated ? (
@@ -84,7 +86,10 @@ export class Sayit extends Component {
                     <FavoriteBorder color="primary" />
                 </MyButton>
                 )
-            )
+            );
+            const deleteButton = authenticated && userHandle === handle ? (
+                <DeleteSayit sayitId={sayitId} />
+            ) : null
         return (
             <Card className={classes.card}>
                 <CardMedia 
@@ -100,6 +105,7 @@ export class Sayit extends Component {
                     >
                     {userHandle}
                     </Typography>
+                    {deleteButton}
                     <Typography 
                     variant="body2" 
                     color="textSecondary">{dayjs(createdAt).fromNow()}</Typography>
