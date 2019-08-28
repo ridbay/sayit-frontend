@@ -38,7 +38,16 @@ const styles = theme => ({
     },
     closeButton: {
         position: 'absolute',
-        left: 90%
+        left: '90%'
+    },
+    expandButton:{
+        position: 'absolute',
+        left: '90%'
+    },
+    spinnerDiv:{
+        textAlign: 'center',
+        marginTop: 50,
+        marginBottom: 50
     }
 })
 
@@ -66,7 +75,9 @@ class SayitDialog extends Component {
             }, UI: { loading }
         } = this.props;
         const dialogMarkup = loading ? (
-            <CircularProgress size={200} />
+            <div className={classes.spinnerDiv}>
+                <CircularProgress size={200} thickness={2}/>
+            </div>
         ) : (
                 <Grid container spacing={16}>
                     <Grid item sm={5}>
@@ -113,8 +124,9 @@ class SayitDialog extends Component {
                         <CloseIcon />
                     </MyButton>
                     <DialogContent className={classes.dialogContent}>
-
+                        {dialogMarkup}
                     </DialogContent>
+
                 </Dialog>
             </Fragment>
         )
@@ -130,12 +142,13 @@ SayitDialog.propTypes = {
     UI: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     sayit: state.data.sayit,
     UI: state.UI
 }) 
-const mapActionsToProps => {
+const mapActionsToProps = {
     getSayit
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(SayitDialog))
+
