@@ -5,24 +5,25 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import EditDetails from './EditDetails.js'
+import MyButton from '../util/MyButton.js';
 
 // MUI
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import MuiLink from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip'; 
+import Tooltip from '@material-ui/core/Tooltip';
 // Icon
 import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import CalendarToday from '@material-ui/icons/CalendarToday'
-import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit'
 import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
 
 // Redux 
 import { connect } from 'react-redux';
-import {logoutUser, uploadImage} from '../redux/actions/userActions'
+import { logoutUser, uploadImage } from '../redux/actions/userActions'
+
 
 const styles = (theme) => ({
     paper: {
@@ -73,7 +74,7 @@ const styles = (theme) => ({
 });
 
 class Profile extends Component {
-    handleImageChange =(event)=>{
+    handleImageChange = (event) => {
         const image = event.target.files[0];
         // send the file to the server
         const formData = new FormData();
@@ -84,7 +85,7 @@ class Profile extends Component {
         const fileInput = document.getElementById('imageInput');
         fileInput.click();
     }
-    handleLogout = ()=>{
+    handleLogout = () => {
         this.props.logoutUser();
     }
     render() {
@@ -95,78 +96,78 @@ class Profile extends Component {
         } = this.props;
         let profileMarkup = !loading ? (
             authenticated ? (
-            <Paper className={classes.paper}>
-                <div className={classes.profile}>
-                    <div className="image-wrapper">
-                        <img src={imageUrl} alt="profile" className="profile-image"/>
-                        <input 
-                        type="file" 
-                        id="imageInput"
-                        onChange={this.handleImageChange}
-                        hidden="hidden"
-                        />
-                        <Tooltip 
-                        title='Edit profile picture' 
-                        placement='top'>
-                            <IconButton onClick={this.handleEditPicture} className='button'>
-                                <EditIcon color='primary' />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <hr />
-                    <div className='profile-details'>
-                        <MuiLink
-                            component={Link}
-                            to={`/users/${handle}`}
-                            color="primary"
-                            variant="h5"
-                        >
-                            @{handle}
-                        </MuiLink>
-                        <hr />
-                        {bio && <Typography variant='body2'>{bio}</Typography>}
-                        <hr />
-                        {location && (
-                            <Fragment>
-                                <LocationOn color="primary"> <span>{location}</span> </LocationOn>
-                                <hr />
-                            </Fragment>
-
-                        )}
-                        {website && (
-                            <Fragment>
-                                <LinkIcon color='primary' />
-                                <a href={website} target="_blank" rel="noopener noreferrer">
-                                {' '}
-                                {website}
-                                </a>
-                                <hr />
-                            </Fragment>
-                        )}
-                        <CalendarToday color="primary" /> {' '}
-                        <span>Joined{dayjs(createdAt).format('MMM YYYY')}</span>
-                        <Tooltip title="Logout" placement="top">
-                            <IconButton onClick={this.handleLogout}>
-                                <KeyboardReturn color="primary"/>
-                            </IconButton>
-                        </Tooltip>
-                            <EditDetails />
-                    </div>
-                </div>
-            </Paper>
-        ) : (
                 <Paper className={classes.paper}>
-                    <Typography variant="body2" align="center">
-                        No profile found, please log in again
-                </Typography>
-                    <div className={classes.button}>
-                        <Button variant='contained' color='primary' component={Link} to='/login'>Login</Button>
-                        <Button variant='contained' color='secondary' component={Link} to='/signup'>Signup</Button>
+                    <div className={classes.profile}>
+                        <div className="image-wrapper">
+                            <img src={imageUrl} alt="profile" className="profile-image" />
+                            <input
+                                type="file"
+                                id="imageInput"
+                                onChange={this.handleImageChange}
+                                hidden="hidden"
+                            />
 
+                            <MyButton tip="Edit profile picture"
+                                onClick={this.handleEditPicture}
+                                btnClassName="button">
+                                <EditIcon color="primary" />
+                            </MyButton>
+                        </div>
+                        <hr />
+                        <div className='profile-details'>
+                            <MuiLink
+                                component={Link}
+                                to={`/users/${handle}`}
+                                color="primary"
+                                variant="h5"
+                            >
+                                @{handle}
+                            </MuiLink>
+                            <hr />
+                            {bio && <Typography variant='body2'>{bio}</Typography>}
+                            <hr />
+                            {location && (
+                                <Fragment>
+                                    <LocationOn color="primary"> <span>{location}</span> </LocationOn>
+                                    <hr />
+                                </Fragment>
+
+                            )}
+                            {website && (
+                                <Fragment>
+                                    <LinkIcon color='primary' />
+                                    <a href={website} target="_blank" rel="noopener noreferrer">
+                                        {' '}
+                                        {website}
+                                    </a>
+                                    <hr />
+                                </Fragment>
+                            )}
+                            <CalendarToday color="primary" /> {' '}
+                            <span>Joined{dayjs(createdAt).format('MMM YYYY')}</span>
+
+                            <MyButton tip="Logout"
+                                onClick={this.handleLogout}
+                            >
+                                <KeyboardReturn color="primary" />
+                            </MyButton>
+                            <EditDetails />
+                        </div>
                     </div>
                 </Paper>
-            )) : (<p> loading...</p>)
-        return profileMarkup; 
+            ) : (
+                    <Paper className={classes.paper}>
+                        <Typography variant="body2" align="center">
+                            No profile found, please log in again
+                </Typography>
+                        <div className={classes.button}>
+                            <Button variant='contained' color='primary' component={Link} to='/login'>Login</Button>
+                            <Button variant='contained' color='secondary' component={Link} to='/signup'>Signup</Button>
+
+                        </div>
+                    </Paper>
+                )) : (<p> loading...</p>)
+        return profileMarkup;
     }
 }
 
@@ -175,7 +176,7 @@ const mapStateToProps = (state) => ({
     user: state.user,
 })
 
-const mapActionsToProps = { logoutUser, uploadImage};
+const mapActionsToProps = { logoutUser, uploadImage };
 
 Profile.propTypes = {
     logoutUser: PropTypes.func.isRequired,
@@ -184,6 +185,6 @@ Profile.propTypes = {
     classes: PropTypes.object.isRequired
 }
 export default connect(
-    mapStateToProps, 
+    mapStateToProps,
     mapActionsToProps
-    )(withStyles(styles)(Profile));
+)(withStyles(styles)(Profile));
