@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import PropTypes from 'prop-types'
 import MyButton from '../util/MyButton';
 import DeleteSayit from './DeleteSayit'
+import SayitDialog from './SayitDialog'
 
 // MUI stuff
 import Card from '@material-ui/core/Card';
@@ -117,6 +118,7 @@ export class Sayit extends Component {
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} comments</span>
+                    <SayitDialog sayitId={sayitId} userHandle={userHandle}/>
                 </CardContent>
             </Card> 
             

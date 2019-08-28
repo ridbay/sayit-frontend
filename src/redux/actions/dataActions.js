@@ -7,7 +7,9 @@ import {
     DELETE_SAYIT, 
     CLEAR_ERRORS,
     POST_SAYIT,
-    LOADING_UI
+    LOADING_UI,
+    SET_SAYIT,
+    STOP_LOADING_UI
 } from '../types';
 import axios from 'axios';
 // get all sayits 
@@ -27,6 +29,19 @@ export const getSayits = () => dispatch => {
         })
     })
 }
+export const getSayit = (sayitId) => (dispatch) =>{
+    dispatch({type: LOADING_UI})
+    axios.get(`/sayit/${sayitId}`)
+    .then(res=> {
+        dispatch({
+            type: SET_SAYIT,
+            payload: res.data
+        });
+        dispatch({type: STOP_LOADING_UI})
+    })
+    .catch(err => console.log(err))
+} 
+
 // Post a Sayit 
 export const postSayit = (newSayit) => (dispatch)=> {
     dispatch({type: LOADING_UI})

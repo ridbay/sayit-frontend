@@ -5,7 +5,8 @@ import {
     UNLIKE_SAYIT,
     SET_ERRORS,
     DELETE_SAYIT,
-    POST_SAYIT
+    POST_SAYIT,
+    SET_SAYIT
 
 } from '../types';
 const initialState = {
@@ -26,6 +27,11 @@ export default function (state = initialState, action) {
                 sayits: action.payload,
                 loading: false,
             }
+        case SET_SAYIT:
+            return {
+                ...state,
+                sayit: action.payload
+            }
         case LIKE_SAYIT:
         case UNLIKE_SAYIT:
             let index = state.sayits.findIndex((sayit) => sayit.sayitId === action.payload.sayitId);
@@ -39,14 +45,14 @@ export default function (state = initialState, action) {
             return {
                 ...state
             }
-            case POST_SAYIT:
-                return {
-                    ...state,
-                    sayits: [
-                        action.payload,
-                        ...state.sayits
-                    ]
-                }
+        case POST_SAYIT:
+            return {
+                ...state,
+                sayits: [
+                    action.payload,
+                    ...state.sayits
+                ]
+            }
         default:
             return state;
 
