@@ -36,6 +36,9 @@ export default function (state = initialState, action) {
         case UNLIKE_SAYIT:
             let index = state.sayits.findIndex((sayit) => sayit.sayitId === action.payload.sayitId);
             state.sayits[index] = action.payload;
+            if(state.sayit.sayitId === action.payload.sayitId){
+                state.sayit = action.payload
+            }
             return {
                 ...state
             };
