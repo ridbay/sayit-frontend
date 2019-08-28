@@ -1,4 +1,14 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_AUTHENTICATED, SET_UNAUTHENTICATED, LOADING_USER } from '../types';
+import {
+    SET_USER,
+    SET_ERRORS,
+    CLEAR_ERRORS,
+    LOADING_UI,
+    SET_AUTHENTICATED,
+    SET_UNAUTHENTICATED,
+    LOADING_USER,
+    LIKE_SAYIT,
+    UNLIKE_SAYIT
+} from '../types';
 
 
 const initialState = {
@@ -24,11 +34,29 @@ export default function (state = initialState, action) {
                 loading: false,
                 ...action.payload
             };
-            case LOADING_USER:
-                return {
-                    ...state,
-                    loading: true
-                }
+        case LOADING_USER:
+            return {
+                ...state,
+                loading: true
+            }
+        case LIKE_SAYIT:
+            return {
+                ...state,
+                likes: [
+                    ...state.likes,
+                    {
+                        userHandle: state.credentials.handle,
+                        sayitId: action.payload.sayitId
+                    }
+                ]
+            }
+        case UNLIKE_SAYIT:
+            return {
+                ...state,
+                likes: state.likes.filter(
+                    (like) => like.sayitId !== action.payload.sayitId
+                )
+            }
         default:
             return state;
     }

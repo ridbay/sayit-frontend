@@ -8,3 +8,10 @@ export const LOADING_USER = 'LOADING_USER'
 export const SET_ERRORS = 'SET_ERRORS';
 export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const LOADING_DATA = 'LOADING_DATA';
+
+// DATA REDUCER TYPES 
+export const SET_SAYITS = 'SET_SAYITS'; 
+export const SET_SAYIT = 'SET_SAYIT'; 
+export const LIKE_SAYIT = 'LIKE_SAYIT';
+export const UNLIKE_SAYIT = 'UNLIKE_SAYIT';

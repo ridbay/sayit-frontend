@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import Grid from '@material-ui/core/Grid';
-
+import PropTypes from 'prop-types'
 import Sayit from '../components/Sayit'
 import Profile from '../components/Profile'
+import {connect} from 'react-redux'
+import {getSayits} from '../redux/actions/dataActions'
 
-export class home extends Component {
-    state={
-        sayits: null,
-    }
-    componentDidMount(){
-        axios.get('/sayits')
-        .then(res => {
-            
-            this.setState({
-                sayits: res.data
-            })
-        })
-        .catch(err=> console.error(err))
-
-    }
+class home extends Component {
+    
+    componentDidMount() {
+        this.props.getSayits();
+      }
     render() {
-        let recentSayitsMarkup = this.state.sayits ? (
-            this.state.sayits.map(sayit => <Sayit key={sayit.sayitId} sayit={sayit}/>)
-        ) : <p>Loading....</p>
+        const {sayits, loading} = this.props.data;
+
+        let recentSayitsMarkup = !loading ? (
+            sayits.map(sayit => <Sayit key={sayit.sayitId} sayit={sayit}/>)
+        ) : (
+        <p>Loading....</p>
+        );
         return (
             <Grid container spacing={16}>
                 <Grid item sm={8} xs={12}>
@@ -37,4 +33,15 @@ export class home extends Component {
     }
 }
 
-export default home
+home.propTypes = {
+    getSayits: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired
+}
+const mapStateToProps = (state) => ({
+    data: state.data
+})
+export default connect(
+    mapStateToProps,
+    { getSayits }
+  )(home);
+

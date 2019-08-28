@@ -17,6 +17,7 @@ export const loginUser = (userData, history) => (dispatch) => {
             })
         })
 }
+
 export const signupUser = (newUserData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/signup', newUserData)
