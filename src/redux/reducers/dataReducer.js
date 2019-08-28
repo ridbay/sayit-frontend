@@ -1,10 +1,10 @@
-import { 
-    SET_SAYITS, 
-    LOADING_DATA, 
-    LIKE_SAYIT, 
-    UNLIKE_SAYIT, 
+import {
+    SET_SAYITS,
+    LOADING_DATA,
+    LIKE_SAYIT,
+    UNLIKE_SAYIT,
     SET_ERRORS,
-    DELETE_SAYIT 
+    DELETE_SAYIT
 
 } from '../types';
 const initialState = {
@@ -32,12 +32,12 @@ export default function (state = initialState, action) {
             return {
                 ...state
             };
-            case DELETE_SAYIT:
-                index = state.sayits.findIndex(sayit => sayit.sayitId === action.payload);
-                state.sayits.splice(index, 1);
-                return {
-                    ...state
-                }
+        case DELETE_SAYIT:
+            index = state.sayits.findIndex(sayit => sayit.sayitId === action.payload);
+            state.sayits.splice(index, 1);
+            return {
+                ...state
+            }
         default:
             return state;
 

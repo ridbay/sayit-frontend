@@ -21,7 +21,7 @@ const styles = {
         position: 'absolute',
         left: '90%',
         top: '10%'
-    }
+    } 
 
 }
 class DeleteSayit extends Component {
