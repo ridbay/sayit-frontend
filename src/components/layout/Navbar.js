@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
 import PostSayit from '../sayit/PostSayit'
+import Notifications from './Notifications'
 // MUI
 import Toolbar from '@material-ui/core/AppBar';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 // Icons
 import HomeIcon from '@material-ui/icons/Home';  
-import Notifications from '@material-ui/icons/Notifications'
+
 
 
 export class Navbar extends Component {
@@ -27,9 +28,9 @@ export class Navbar extends Component {
                                     <HomeIcon />
                                 </MyButton>
                             </Link>
-                            <MyButton tip="notification">
+                            
                                 <Notifications />
-                            </MyButton>
+                           
                         </Fragment>
                     ) : (
                             <Fragment>

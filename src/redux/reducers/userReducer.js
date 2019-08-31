@@ -4,7 +4,8 @@ import {
     SET_UNAUTHENTICATED,
     LOADING_USER,
     LIKE_SAYIT,
-    UNLIKE_SAYIT
+    UNLIKE_SAYIT,
+    MARK_NOTIFICATIONS_READ
 } from '../types';
 
 
@@ -54,6 +55,11 @@ export default function (state = initialState, action) {
                     (like) => like.sayitId !== action.payload.sayitId
                 )
             }
+            case MARK_NOTIFICATIONS_READ:
+                state.notifications.forEach(not=> not.read = true)
+                return {
+                    ...state
+                }
         default:
             return state;
     }

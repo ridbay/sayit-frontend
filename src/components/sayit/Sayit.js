@@ -86,7 +86,7 @@ export class Sayit extends Component {
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} comments</span>
-                    <SayitDialog sayitId={sayitId} userHandle={userHandle}/>
+                    <SayitDialog sayitId={sayitId} userHandle={userHandle} openDialog={this.props.openDialog}/>
                 </CardContent>
             </Card> 
             
@@ -98,6 +98,7 @@ Sayit.propTypes = {
     user: PropTypes.object.isRequired,
     sayit: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
+    openDialog: PropTypes.bool
 }
 const mapStateToProps = (state) => ({
     user: state.user
