@@ -3,7 +3,6 @@ import {
     LOADING_DATA,
     LIKE_SAYIT,
     UNLIKE_SAYIT,
-    SET_ERRORS,
     DELETE_SAYIT,
     POST_SAYIT,
     SET_SAYIT

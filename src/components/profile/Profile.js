@@ -5,14 +5,13 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import EditDetails from './EditDetails.js'
-import MyButton from '../util/MyButton.js';
+import MyButton from '../../util/MyButton.js';
 
 // MUI
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import MuiLink from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
 // Icon
 import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
@@ -22,7 +21,7 @@ import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
 
 // Redux 
 import { connect } from 'react-redux';
-import { logoutUser, uploadImage } from '../redux/actions/userActions'
+import { logoutUser, uploadImage } from '../../redux/actions/userActions'
 
 
 const styles = (theme) => ({
