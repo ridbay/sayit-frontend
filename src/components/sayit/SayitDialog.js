@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import MyButton from '../../util/MyButton';
 import LikeButton from './LikeButton';
-import Comments from './Comments'
+import Comments from './Comments';
+import CommentForm from './CommentForm'
 
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom';
@@ -19,7 +20,7 @@ import UnfoldMore from '@material-ui/icons/UnfoldMore';
 import ChatIcon from '@material-ui/icons/Chat'
 // redux 
 import { connect } from 'react-redux'
-import { getSayit } from '../../redux/actions/dataActions'
+import { getSayit, clearErrors } from '../../redux/actions/dataActions'
 
 
 
@@ -59,7 +60,8 @@ class SayitDialog extends Component {
         this.props.getSayit(this.props.sayitId);
     }
     handleClose = () => {
-        this.setState({ open: false })
+        this.setState({ open: false });
+        this.props.clearErrors();
     }
     render() {
         const {
@@ -109,6 +111,7 @@ class SayitDialog extends Component {
                         <span>{commentCount} comments</span>
                     </Grid>
                     <hr className={classes.visibleSeparator}/>
+                    <CommentForm sayitId={sayitId}/>
                     <Comments comments={comments}/>
                 </Grid>
             )
@@ -143,6 +146,7 @@ class SayitDialog extends Component {
 }
 
 SayitDialog.propTypes = {
+    clearErrors: PropTypes.func.isRequired,
     getSayit: PropTypes.func.isRequired,
     sayitId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
@@ -155,7 +159,8 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 })
 const mapActionsToProps = {
-    getSayit
+    getSayit,
+    clearErrors
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(SayitDialog))

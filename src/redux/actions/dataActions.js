@@ -9,7 +9,8 @@ import {
     POST_SAYIT,
     LOADING_UI,
     SET_SAYIT,
-    STOP_LOADING_UI
+    STOP_LOADING_UI,
+    SUBMIT_COMMENT
 } from '../types';
 import axios from 'axios';
 // get all sayits 
@@ -51,9 +52,7 @@ export const postSayit = (newSayit) => (dispatch)=> {
             type: POST_SAYIT,
             payload: res.data
         })
-        dispatch({
-            type: CLEAR_ERRORS
-        })
+        dispatch(clearErrors())
     })
     .catch(err => {
         dispatch({
@@ -97,4 +96,22 @@ export const deleteSayit = (sayitId) => (dispatch) => {
 
 export const clearErrors = () => (dispatch) => {
     dispatch({ type: CLEAR_ERRORS})
+}
+
+// Submit a comment 
+export const submitComment = (sayitId, commentData) => (dispatch)=>{
+    axios.post(`/sayit/${sayitId}/comment`, commentData)
+    .then(res=>{
+        dispatch({
+            type: SUBMIT_COMMENT,
+            payload: res.data
+        });
+        dispatch(clearErrors());
+    })
+    .catch(err => {
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        });
+    });
 }
