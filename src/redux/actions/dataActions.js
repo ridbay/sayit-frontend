@@ -94,9 +94,7 @@ export const deleteSayit = (sayitId) => (dispatch) => {
     .catch(err => console.log(err));
 }
 
-export const clearErrors = () => (dispatch) => {
-    dispatch({ type: CLEAR_ERRORS})
-}
+
 
 // Submit a comment 
 export const submitComment = (sayitId, commentData) => (dispatch)=>{
@@ -114,4 +112,25 @@ export const submitComment = (sayitId, commentData) => (dispatch)=>{
             payload: err.response.data
         });
     });
+}
+
+export const getUserData = (userHandle)=> (dispatch)=> {
+    dispatch({type: LOADING_DATA});
+    axios.get(`/user/${userHandle}`)
+    .then(res=>{
+        dispatch({
+            type: SET_SAYITS,
+            payload: res.data.getSayits
+        });
+    })
+    .catch(() => {
+        dispatch({
+            type: SET_SAYITS,
+            payload: null
+        })
+    })
+}
+
+export const clearErrors = () => (dispatch) => {
+    dispatch({ type: CLEAR_ERRORS})
 }
