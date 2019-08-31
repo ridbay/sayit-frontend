@@ -4,6 +4,8 @@ import axios from 'axios'
 import Sayit from '../components/sayit/Sayit'
 import StaticProfile from '../components/profile/StaticProfile'
 import Grid from '@material-ui/core/Grid'
+import SayitSkeleton from '../util/SayitSkeleton'
+import ProfileSkeleton from '../util/ProfileSkeleton'
 
 import {connect } from 'react-redux'
 import {getUserData} from '../redux/actions/dataActions'
@@ -33,7 +35,7 @@ class user extends Component {
         const {sayitIdParam} = this.state;
 
         const sayitsMarkup = loading ? (
-            <p>Loading data...</p>
+            <SayitSkeleton/>
         ) : sayits === null ? (
             <p>No Sayits from this user</p>
         ) : !sayitIdParam ? (
@@ -52,7 +54,7 @@ class user extends Component {
                 </Grid>
                 <Grid item sm={4} xs={12}>
                     {this.state.profile ===null ? (
-                        <p>Loading profile...</p>
+                        <ProfileSkeleton/>
                     ) : (
                         <StaticProfile profile={this.state.profile}/>
                     )}
